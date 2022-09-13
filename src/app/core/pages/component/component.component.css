@@ -1,0 +1,18 @@
+.botao {
+    color: #BF40BF;
+    background-color: white;
+    border-color: #BF40BF !important;
+}
+
+.botao:hover {
+    color: white;
+    background-color: #BF40BF !important;
+    border-color:  white !important;
+    transform: scale(1.1) !important;
+    transition: all 0.5s !important;
+}
+
+.btnDelete:hover {
+    transform: scale(1.4) !important;
+    transition: all 0.5s !important;
+}
