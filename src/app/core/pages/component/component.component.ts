@@ -43,6 +43,7 @@ export class ComponentComponent implements OnInit {
         this.componentRegistration.reset();
         this.getComponentsList();
         alert("Salvo com sucesso.");
+        window.scrollTo(4000, 4000);
       },
       error: err => {
         alert("Erro" + err);
@@ -91,6 +92,7 @@ export class ComponentComponent implements OnInit {
           this.isUpdate = true;
           this.componentRegistration.patchValue({ component: resp.component });
           alert("Dados carregados com sucesso!");
+          window.scrollTo(0, 0);
         },
         error: err => {
           alert("Error" + err);

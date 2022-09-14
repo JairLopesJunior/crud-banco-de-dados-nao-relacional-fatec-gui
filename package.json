@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy:ghdocs": "ng build --prod --output-path docs --base-href /crud-banco-de-dados-nao-relacional-fatec-gui/"
   },
   "private": true,
   "dependencies": {
