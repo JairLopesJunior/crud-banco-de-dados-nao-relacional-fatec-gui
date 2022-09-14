@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class ComponentService {
 
-  private componentUrl: string = 'http://localhost:8080/api/components';
+  private componentUrl: string = 'https://project-non-relational-databas.herokuapp.com/api/components';
 
   constructor(private httpClient: HttpClient) {}
 
