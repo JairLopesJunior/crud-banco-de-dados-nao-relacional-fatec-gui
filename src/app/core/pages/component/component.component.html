@@ -1,26 +1,28 @@
 <div>
-    <h1 style="text-align: center;">Component Registration</h1>
+    <h1 style="text-align: center;">Icon Registration</h1>
     <form
     [formGroup]="componentRegistration"
     style="margin-bottom: 5rem"
     class="mt-3"
-    (ngSubmit)="save()"
     >
         <div class="row mb-3">
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <label for="exampleInputEmail1">Component: </label>
+                <label for="exampleInputEmail1">Icon: </label>
                 <textarea class="form-control" formControlName="component" id="component" rows="3"></textarea>
             </div>
             <div style="text-align: center;">   
-                <button class="btn botao mt-3 ">
+                <button (click)="save()" class="btn botao mt-3" *ngIf="isSave">
                     <span class="spn">Save</span>
                 </button>
+                <button (click)="update()" class="btn botao mt-3" *ngIf="isUpdate">
+                  <span class="spn">Update</span>
+              </button>
             </div>
         </div>
     </form>
 
     <div class="p-3 mb-2 bg-white text-black">
-      Choose a component and save!! <a target="_blank" href="https://getbootstrap.com/docs/4.6/utilities/colors/?">Link:</a> 
+      Choose a icon and save!! <a target="_blank" href="https://fontawesome.com/v5/icons/volume-off?s=solid&f=classic">Link:</a> 
     </div>
     <br><br>
 
@@ -33,13 +35,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let c of componentsList">
+          <tr *ngFor="let c of componentsList; let i = index">
             <td>{{ c.id }}</td>
             <td [innerHtml]="c.component"></td>
             <td>
-                <button (click)="deleteById(c.id)" class="btnDelete" style="border-color: transparent; background-color: transparent;">
-                    <i style="color:white" class="fa fa-trash" aria-hidden="true"></i>
-                </button>
+              <button (click)="deleteById(c.id)" class="btnDelete" style="border-color: transparent; background-color: transparent;">
+                <i style="color:white" class="fa fa-trash" aria-hidden="true"></i>
+              </button>
+
+              <button (click)="findById(c.id, i)" class="btnDelete" style="border-color: transparent; background-color: transparent;">
+                <i style="color:white;" class="fa fa-edit" aria-hidden="true"></i>
+              </button>
             </td>
           </tr>
         </tbody>

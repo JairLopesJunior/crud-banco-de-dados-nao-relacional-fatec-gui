@@ -15,6 +15,14 @@ export class ComponentComponent implements OnInit {
 
   componentsList: ComponentEntity[];
 
+  isSave: boolean = true;
+
+  isUpdate: boolean = false;
+
+  componentId: number;
+
+  indice: number;
+
   constructor(private fb: FormBuilder,
               private _componentService: ComponentService) { }
 
@@ -32,7 +40,9 @@ export class ComponentComponent implements OnInit {
   public save(): void {
     this._componentService.save(this.componentRegistration.getRawValue()).subscribe({
       next: component => {
-        alert("Salvo com sucesso.")
+        this.componentRegistration.reset();
+        this.getComponentsList();
+        alert("Salvo com sucesso.");
       },
       error: err => {
         alert("Erro" + err);
@@ -57,9 +67,9 @@ export class ComponentComponent implements OnInit {
     });
   }
 
-  public deleteById(id: string | undefined): void {
+  public deleteById(id: number | undefined): void {
     if(!!id) {
-      this._componentService.deleteById(+id).subscribe({
+      this._componentService.deleteById(id).subscribe({
         next: cs => {
           this.getComponentsList();
           alert("Deletado com sucesso!");
@@ -69,5 +79,42 @@ export class ComponentComponent implements OnInit {
         }
       });
     }
+  }
+
+  public findById(id: number | undefined, indice: number): void {
+    if(!!id) {
+      this._componentService.findById(id).subscribe({
+        next: resp => {
+          this.indice = indice;
+          this.componentId = id;
+          this.isSave = false;
+          this.isUpdate = true;
+          this.componentRegistration.patchValue({ component: resp.component });
+          alert("Dados carregados com sucesso!");
+        },
+        error: err => {
+          alert("Error" + err);
+        }
+      });
+    }
+  }
+
+  public update(): void {
+    let entity = new ComponentEntity();
+    entity.id = this.componentId;
+    entity.component = this.componentRegistration.get('component')!.value;
+    this._componentService.update(entity).subscribe({
+      next: resp => {
+        this.componentsList[this.indice].component = resp.component;
+        this.isSave = true;
+        this.isUpdate = false;
+        this.getComponentsList();
+        alert("Dados atualizados com sucesso!");
+        this.componentRegistration.reset();
+      },
+      error: err => {
+        alert("Error" + err);
+      }
+    });
   }
 }

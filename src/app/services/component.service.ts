@@ -23,4 +23,12 @@ export class ComponentService {
   deleteById(id: number): Observable<ComponentEntity[]> {
     return this.httpClient.delete<ComponentEntity[]>(`${this.componentUrl}/${id}`);
   }
+
+  findById(id: number): Observable<ComponentEntity> {
+    return this.httpClient.get<ComponentEntity>(`${this.componentUrl}/${id}`);
+  }
+
+  update(entity: ComponentEntity): Observable<ComponentEntity> {
+    return this.httpClient.put<ComponentEntity>(this.componentUrl, entity);
+  }
 }
