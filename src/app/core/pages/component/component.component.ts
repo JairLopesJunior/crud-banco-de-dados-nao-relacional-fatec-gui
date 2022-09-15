@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ComponentService } from 'src/app/services/component.service';
 import { CssSelector } from '@angular/compiler';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-component',
@@ -23,8 +24,13 @@ export class ComponentComponent implements OnInit {
 
   indice: number;
 
+  private readonly _notifierService: NotifierService;
+
   constructor(private fb: FormBuilder,
-              private _componentService: ComponentService) { }
+              private _componentService: ComponentService,
+              notifierService: NotifierService) {
+    this._notifierService = notifierService;
+  }
 
   ngOnInit(): void {
     this.componentForm();
@@ -42,11 +48,11 @@ export class ComponentComponent implements OnInit {
       next: component => {
         this.componentRegistration.reset();
         this.getComponentsList();
-        alert("Salvo com sucesso.");
+        this._notifierService.notify('success', 'Saved successfully!!');
         window.scrollTo(4000, 4000);
       },
       error: err => {
-        alert("Erro" + err);
+        this._notifierService.notify('error', 'Error!!');
       }
     });
   }
@@ -63,7 +69,7 @@ export class ComponentComponent implements OnInit {
         this.componentsList = cs;
       },
       error: err => {
-        alert("Erro" + err);
+        this._notifierService.notify('error', 'Error!!');
       }
     });
   }
@@ -73,10 +79,10 @@ export class ComponentComponent implements OnInit {
       this._componentService.deleteById(id).subscribe({
         next: cs => {
           this.getComponentsList();
-          alert("Deletado com sucesso!");
+          this._notifierService.notify('success', 'Deleted successfully!!');
         },
         error: err => {
-          alert("Erro" + err);
+          this._notifierService.notify('error', 'Error!!');
         }
       });
     }
@@ -91,11 +97,11 @@ export class ComponentComponent implements OnInit {
           this.isSave = false;
           this.isUpdate = true;
           this.componentRegistration.patchValue({ component: resp.component });
-          alert("Dados carregados com sucesso!");
+          this._notifierService.notify('success', 'Data loaded successfully!!');
           window.scrollTo(0, 0);
         },
         error: err => {
-          alert("Error" + err);
+          this._notifierService.notify('error', 'Error!!');
         }
       });
     }
@@ -111,11 +117,11 @@ export class ComponentComponent implements OnInit {
         this.isSave = true;
         this.isUpdate = false;
         this.getComponentsList();
-        alert("Dados atualizados com sucesso!");
+        this._notifierService.notify('success', 'Data successfully updated!!');
         this.componentRegistration.reset();
       },
       error: err => {
-        alert("Error" + err);
+        this._notifierService.notify('error', 'Error!!');
       }
     });
   }
